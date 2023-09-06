@@ -28,10 +28,8 @@ namespace IngameScript
         public Program()
         {
             // setup GridInfo
-            GridInfo.Me = Me;
-            GridInfo.GridTerminalSystem = GridTerminalSystem;
-            GridInfo.Echo = Echo;
-            if(Storage != "")GridInfo.Load(Storage);
+            GridInfo.Init(GridTerminalSystem,IGC,Me,Echo);
+            if(Storage != "") GridInfo.Load(Storage);
             //
             // setup screen
             //
