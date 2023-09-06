@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawSpriteTests", "DrawSpriteTests\DrawSpriteTests.csproj", "{9A93A72F-B9BF-4482-8540-68F99CFF2117}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A93A72F-B9BF-4482-8540-68F99CFF2117}.Debug|x64.ActiveCfg = Debug|x64
+		{9A93A72F-B9BF-4482-8540-68F99CFF2117}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33B97B5B-2B41-4C3E-9085-B61A8190804E}
+	EndGlobalSection
+EndGlobal

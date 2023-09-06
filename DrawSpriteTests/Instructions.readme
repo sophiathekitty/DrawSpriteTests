@@ -1,0 +1,27 @@
+﻿Sprite Screen Tests
+-----------
+
+this is just me figuring out how to use the draw sprite stuff.
+the screen classes should be able to draw text and sprites on a screen.
+the action bar should be able to draw text spaced out along the bottom
+of the screen.
+
+you should be able to declair the screen and pass it the surface.
+and then add sprites to the screen. if you want to update the text
+of a sprite the add text sprite returns the sprite.
+
+create a screen from a IMyTextSurface.
+
+	progScreen = new Screen(Me.GetSurface(0));
+
+
+then add sprites to the screen.
+
+	progScreen.AddTextSprite(ScreenSprite.ScreenSpriteAnchor.TopCenter,new Vector2(0,0),1.5f,Color.White,"White","Header",TextAlignment.CENTER);
+
+
+add an action bar to the bottom of the screen.
+
+	progScreen.AddActionBar(5,"Up Down + - Back");
+
+includes GridInfo for properties menu items. (with "bindable" properties)
