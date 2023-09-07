@@ -17,6 +17,7 @@ using VRage.Game.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRageMath;
+using static IngameScript.Program.ScreenSprite;
 
 namespace IngameScript
 {
@@ -30,6 +31,16 @@ namespace IngameScript
             private IMyTextSurface _drawingSurface;
             private RectangleF _viewport;
             List<ScreenSprite> _sprites = new List<ScreenSprite>();
+            public Color BackgroundColor
+            {
+                get { return _drawingSurface.ScriptBackgroundColor; }
+                set { _drawingSurface.ScriptBackgroundColor = value; }
+            }
+            public Color ForegroundColor
+            {
+                get { return _drawingSurface.ScriptForegroundColor; }
+                set { _drawingSurface.ScriptForegroundColor = value; }
+            }
             //
             // constructor
             //
@@ -104,6 +115,24 @@ namespace IngameScript
                 ScreenToggleIcon toggleIcon = new ScreenToggleIcon(offIcon, onIcon, variableName, position, size, anchor, alignment);
                 _sprites.Add(toggleIcon.Sprite);
                 return toggleIcon;
+            }
+            public PixelIcon AddPixelIcon(Vector2 position, string data, Color color, Vector2 size, float scale = 0.01f, ScreenSprite.ScreenSpriteAnchor anchor = ScreenSprite.ScreenSpriteAnchor.TopLeft, TextAlignment alignment = TextAlignment.LEFT)
+            {
+                PixelIcon pixelIcon = new PixelIcon(position, data, color, size, scale, anchor, alignment);
+                _sprites.Add(pixelIcon);
+                return pixelIcon;
+            }
+            public PixelIcon AddTogglePixelIcon(Vector2 position, string offIcon, string onIcon, string variableName, Color color, Vector2 size, float scale = 0.01f, ScreenSprite.ScreenSpriteAnchor anchor = ScreenSprite.ScreenSpriteAnchor.TopLeft, TextAlignment alignment = TextAlignment.LEFT)
+            {
+                PixelIcon pixelIcon = new PixelIcon(position, offIcon, onIcon, variableName, color, size, scale, anchor, alignment);
+                _sprites.Add(pixelIcon);
+                return pixelIcon;
+            }
+            public PixelIcon AddVariablePixelIcon(Vector2 position, List<string> variableIcons, string variableName, Color color, Vector2 size, float scale = 0.01f, ScreenSprite.ScreenSpriteAnchor anchor = ScreenSprite.ScreenSpriteAnchor.TopLeft, TextAlignment alignment = TextAlignment.LEFT)
+            {
+                PixelIcon pixelIcon = new PixelIcon(position, variableIcons, variableName, color, size, scale, anchor, alignment);
+                _sprites.Add(pixelIcon);
+                return pixelIcon;
             }
         }
         //----------------------------------------------------------------------

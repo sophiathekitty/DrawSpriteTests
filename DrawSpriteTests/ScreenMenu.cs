@@ -35,6 +35,30 @@ namespace IngameScript
             float _width = 100f;
             float headerHeight = 1.2f;
             ScreenActionBar actionBar;
+            public string menuScrollActions
+            {
+                get
+                {
+                    if (actionBar != null)
+                    {
+                        if (actionBar.Count == 5) return "Up Down Select  Back";
+                        if (actionBar.Count == 4) return "Up Down Select Back";
+                    }
+                    return "Up Down Select";
+                }
+            }
+            public string menuEditActions
+            {
+                get
+                {
+                    if (actionBar != null)
+                    {
+                        if (actionBar.Count == 5) return "+ ++ - -- Done";
+                        if (actionBar.Count == 4) return "+ -  Done";
+                    }
+                    return "+ - Done";
+                }
+            }
             public float Width
             {
                 get { return _width; }
@@ -172,9 +196,7 @@ namespace IngameScript
                             else
                             {
                                 SelectedItem.Editing = true;
-                                if (actionBar.Count == 5) actionBar.SetActions("+ ++ - -- Done");
-                                else if (actionBar.Count == 4) actionBar.SetActions("+ -  Done");
-                                else actionBar.SetActions("+ - Done");
+                                actionBar.SetActions(menuEditActions);
                             }
                         }
                         else if (action == "+")
@@ -196,7 +218,7 @@ namespace IngameScript
                         else if (action == "done")
                         {
                             SelectedItem.Editing = false;
-                            actionBar.SetActions("Up Down Select Back");
+                            actionBar.SetActions(menuScrollActions);
                         }
                         else
                         {
