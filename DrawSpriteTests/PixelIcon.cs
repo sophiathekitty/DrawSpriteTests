@@ -22,6 +22,9 @@ namespace IngameScript
 {
     partial class Program
     {
+        //----------------------------------------------------------------------
+        // PixelIcon
+        //----------------------------------------------------------------------
         public class PixelIcon : ScreenSprite
         {
             Vector2 _size;
@@ -255,5 +258,6 @@ namespace IngameScript
                             setPixelRGB(x + x1, y + y1, red, green, blue);
             }
         }
+        //----------------------------------------------------------------------
     }
 }

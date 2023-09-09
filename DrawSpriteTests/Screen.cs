@@ -134,6 +134,12 @@ namespace IngameScript
                 _sprites.Add(pixelIcon);
                 return pixelIcon;
             }
+            public ScreenPercentageBar AddPercentageBar(string varName, Vector2 position, Vector2 size, Color borderColor, Color barColor, Color barFull, Color backColor, float percent, ScreenSprite.ScreenSpriteAnchor anchor = ScreenSprite.ScreenSpriteAnchor.BottomCenter)
+            {
+                ScreenPercentageBar percentageBar = new ScreenPercentageBar(varName, position, size, borderColor, barColor, barFull, backColor, percent, anchor);
+                percentageBar.AddSprites(ref _sprites);
+                return percentageBar;
+            }
         }
         //----------------------------------------------------------------------
         // screen sprite - encapsulates a sprite
@@ -248,5 +254,8 @@ namespace IngameScript
             }
             
         }
+        //----------------------------------------------------------------------
+        // end sprite screen
+        //----------------------------------------------------------------------
     }
 }

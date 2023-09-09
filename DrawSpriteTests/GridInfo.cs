@@ -22,45 +22,47 @@ namespace IngameScript
 {
     partial class Program
     {
-        //-----------------------------------------------------//
-        // Grid Info                                           //
-        //-----------------------------------------------------//
-        // holds some basic info about the grid and other      //
-        // useful stuff to have globally can also report       //
-        // changes to variables and send them to other grids   //
-        //-----------------------------------------------------//
-        // add to Program():                                   //
-        // GridInfo.Init(GridTerminalSystem,IGC,Me,Echo);      //
-        // if(Storage != "") GridInfo.Load(Storage);           //
-        //                                                     //
-        // add to Save():                                      //
-        // GridInfo.Save();                                    //
-        //                                                     //
-        // add to Main():                                      //
-        // GridInfo.CheckMessages();                           //
-        //                                                     //
-        // usage:                                              //
-        // GridInfo.SetVar("varname","value");                 //
-        // GridInfo.GetVarAs<T>("varname","optionalDefault");  //
-        //                                                     //
-        // change listener:                                    //
-        // GridInfo.AddVarChangedHandler("varname",MyHandler); //
-        //                                                     //
-        // change broadcasting:                                //
-        // GridInfo.AddChangeBroadcaster("program","varname"); //
-        // GridInfo.AddChangeUnicaster(igcAddress,"varname");  //
-        //-----------------------------------------------------//
+        //---------------------------------------------------------------//
+        // Grid Info                                                     //
+        //---------------------------------------------------------------//
+        // holds some basic info about the grid and other useful stuff   //
+        // to have globally can also report changes to variables and     //
+        // send them to other grids.                                     //
+        //---------------------------------------------------------------//
+        // add to Program():                                             //
+        // GridInfo.Init("Program Name",GridTerminalSystem,IGC,Me,Echo); //
+        // if(Storage != "") GridInfo.Load(Storage);                     //
+        //                                                               //
+        // add to Save():                                                //
+        // GridInfo.Save();                                              //
+        //                                                               //
+        // add to Main():                                                //
+        // GridInfo.CheckMessages();                                     //
+        //                                                               //
+        // usage:                                                        //
+        // GridInfo.SetVar("varname","value");                           //
+        // GridInfo.GetVarAs<T>("varname","optionalDefault");            //
+        //                                                               //
+        // change listener:                                              //
+        // GridInfo.AddVarChangedHandler("varname",MyHandler);           //
+        //                                                               //
+        // change broadcasting:                                          //
+        // GridInfo.AddChangeBroadcaster("program","varname");           //
+        // GridInfo.AddChangeUnicaster(igcAddress,"varname");            //
+        //---------------------------------------------------------------//
         public class GridInfo
         {
             public static long RunCount = 0; // to store how many times the script has run since compiling
+            public static string ProgramName = "Program"; // the name of the program
             public static IMyGridTerminalSystem GridTerminalSystem; // so it can be globally available
             public static IMyIntergridCommunicationSystem IGC; // so it can be globally available
             public static IMyProgrammableBlock Me; // so it can be globally available... lol
             public static Action<string> EchoAction; // EchoAction?.Invoke("hello");
             private static IMyBroadcastListener broadcastListener; // so it can be globally available
+            private static List<IMyBroadcastListener> listeners = new List<IMyBroadcastListener>(); // so it can be globally available
             private static string bound_vars = ""; // a list of vars that have been bound to the grid
             private static Dictionary<string, string> broadcast_vars = new Dictionary<string, string>(); // a list of vars that have been bound to the grid
-            private static Dictionary<string,long> unicast_vars = new Dictionary<string, long>(); // a list of vars that have been bound to the grid
+            private static Dictionary<string, long> unicast_vars = new Dictionary<string, long>(); // a list of vars that have been bound to the grid
             public static bool handleUnicastMessages = false;
             public static void Echo(string message)
             {
@@ -70,20 +72,23 @@ namespace IngameScript
             //-------------------------------------------//
             // setup GridInfo                            //
             //-------------------------------------------//
-            public static void Init(IMyGridTerminalSystem gts, IMyIntergridCommunicationSystem igc, IMyProgrammableBlock me, Action<string> echo)
+            public static void Init(string name, IMyGridTerminalSystem gts, IMyIntergridCommunicationSystem igc, IMyProgrammableBlock me, Action<string> echo)
             {
+                ProgramName = name;
                 GridTerminalSystem = gts;
                 IGC = igc;
                 Me = me;
                 EchoAction = echo;
-                broadcastListener = IGC.RegisterBroadcastListener(Me.CustomName);
+                broadcastListener = IGC.RegisterBroadcastListener(ProgramName);
+                Me.CustomName = "Program: " + ProgramName + " @" + IGC.Me.ToString();
             }
             //-------------------------------------------//
             // handle broadcast messages                 //
             //-------------------------------------------//
-            public static void CheckMessages()
+            public static List<MyIGCMessage> CheckMessages()
             {
-                while(broadcastListener.HasPendingMessage)
+                List<MyIGCMessage> messages = new List<MyIGCMessage>();
+                while (broadcastListener.HasPendingMessage)
                 {
                     MyIGCMessage message = broadcastListener.AcceptMessage();
                     string[] data = message.As<string>().Split('║');
@@ -92,11 +97,25 @@ namespace IngameScript
                         SetVar(data[0], data[1]);
                     }
                 }
-                while(IGC.UnicastListener.HasPendingMessage && handleUnicastMessages)
+                while (IGC.UnicastListener.HasPendingMessage && handleUnicastMessages)
                 {
                     MyIGCMessage message = IGC.UnicastListener.AcceptMessage();
-                    SetVar(message.Tag,message.As<string>());
+                    if (GridVars.ContainsKey(message.Tag)) SetVar(message.Tag, message.As<string>());
                 }
+                foreach (IMyBroadcastListener listener in listeners)
+                {
+                    while (listener.HasPendingMessage)
+                    {
+                        messages.Add(listener.AcceptMessage());
+                    }
+                }
+                return messages;
+            }
+            public static IMyBroadcastListener AddBroadcastListener(string name)
+            {
+                IMyBroadcastListener listener = IGC.RegisterBroadcastListener(name);
+                listeners.Add(listener);
+                return listener;
             }
             //-------------------------------------------//
             // Get a var as a specific type of variable  //
@@ -120,7 +139,7 @@ namespace IngameScript
             {
                 if (GridVars.ContainsKey(key)) GridVars[key] = value;
                 else GridVars.Add(key, value);
-                if(bound_vars.Contains(key + "║")) OnVarChanged(key, value);
+                if (bound_vars.Contains(key + "║")) OnVarChanged(key, value);
             }
             //------------------------------------------------------------//
             // converts the grid info vars to a string to save in Storage //
@@ -152,14 +171,14 @@ namespace IngameScript
             //----------------------------------//
             // event for when a var is changed  //
             //----------------------------------//
-            public static event Action<string,string> VarChanged;
+            public static event Action<string, string> VarChanged;
             private static void OnVarChanged(string key, string value)
             {
-                VarChanged?.Invoke(key,value);
+                VarChanged?.Invoke(key, value);
                 if (broadcast_vars.ContainsKey(key)) IGC.SendBroadcastMessage(broadcast_vars[key], key + "║" + value);
                 if (unicast_vars.ContainsKey(key)) IGC.SendUnicastMessage(unicast_vars[key], key, value);
             }
-            public static void AddChangeListener(string key, Action<string,string> handler)
+            public static void AddChangeListener(string key, Action<string, string> handler)
             {
                 bound_vars += key + "║";
                 VarChanged += handler;
@@ -175,17 +194,17 @@ namespace IngameScript
                 unicast_vars.Add(key, id);
                 handleUnicastMessages = true;
             }
-            
+
             //----------------------------------//
             // the world position for the block //
             //----------------------------------//
-            public static Vector3D BlockWorldPosition(IMyFunctionalBlock block, Vector3D offset =  new Vector3D())
+            public static Vector3D BlockWorldPosition(IMyFunctionalBlock block, Vector3D offset = new Vector3D())
             {
                 return Vector3D.Transform(offset, block.WorldMatrix);
             }
         }
-        //-----------------------------------------------------//
-        // GridInfo End                                        //
-        //-----------------------------------------------------//
+        //---------------------------------------------------------------//
+        // GridInfo End                                                  //
+        //---------------------------------------------------------------//
     }
 }

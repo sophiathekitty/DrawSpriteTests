@@ -25,3 +25,11 @@ add an action bar to the bottom of the screen.
 	progScreen.AddActionBar(5,"Up Down + - Back");
 
 includes GridInfo for properties menu items. (with "bindable" properties)
+
+This Script's MDK Project Source: https://github.com/sophiathekitty/DrawSpriteTests
+MDK Docs for drawing sprites: https://github.com/malware-dev/MDK-SE/wiki/Text-Panels-and-Drawing-Sprites
+
+Icon Attribution:
+https://www.flaticon.com/free-icons/construction-and-tools Construction-and-tools icons created by Smashicons - Flaticon
+https://www.flaticon.com/free-icons/area Area icons created by Smashicons - Flaticon
+https://www.flaticon.com/free-icons/hphp Hp icons created by Smashicons - Flaticon

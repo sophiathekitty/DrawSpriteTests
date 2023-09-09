@@ -22,6 +22,9 @@ namespace IngameScript
 {
     partial class Program
     {
+        //----------------------------------------------------------------------
+        // ScreenActionBar
+        //----------------------------------------------------------------------
         public class ScreenActionBar
         {
             private string[] actions;
@@ -76,5 +79,6 @@ namespace IngameScript
                 return "";
             }   
         }
+        //----------------------------------------------------------------------
     }
 }

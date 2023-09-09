@@ -31,7 +31,7 @@ namespace IngameScript
         public Program()
         {
             // setup GridInfo
-            GridInfo.Init(GridTerminalSystem,IGC,Me,Echo);
+            GridInfo.Init("Draw Sprite Tests",GridTerminalSystem,IGC,Me,Echo);
             if(Storage != "") GridInfo.Load(Storage);
             //
             // setup screen
@@ -61,6 +61,8 @@ namespace IngameScript
             pixelDrills = progScreen.AddTogglePixelIcon(new Vector2(-10,0),"",drillIcon,"DrillsOn",Color.White,new Vector2(64,64),0.02f,ScreenSprite.ScreenSpriteAnchor.CenterRight,TextAlignment.RIGHT);
             pixelArea = progScreen.AddTogglePixelIcon(new Vector2(-10,-50),"",areaIcon,"ShowArea",Color.White,new Vector2(64,64),0.02f,ScreenSprite.ScreenSpriteAnchor.CenterRight,TextAlignment.RIGHT);
             heart = progScreen.AddVariablePixelIcon(new Vector2(-10,10),testIcons,"DrillsCount",Color.White,new Vector2(64,64),0.02f,ScreenSprite.ScreenSpriteAnchor.TopRight,TextAlignment.RIGHT);
+            // add a percentage bar
+            progScreen.AddPercentageBar("CargoPercent",new Vector2(-100,15),new Vector2(200,20),Color.White,Color.Green,Color.Red,Color.Black,0.5f,ScreenSprite.ScreenSpriteAnchor.TopCenter);
             /*
             pixelTest.fillRGB(0, 0, 0);
             pixelTest.fillRectRGB(10, 10, 20, 20, 0, 100, 200);

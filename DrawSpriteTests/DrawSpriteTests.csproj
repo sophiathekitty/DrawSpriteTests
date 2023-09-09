@@ -55,6 +55,7 @@
     <Compile Include="ScreenActionBar.cs" />
     <Compile Include="ScreenMenu.cs" />
     <Compile Include="ScreenMenuItem.cs" />
+    <Compile Include="ScreenPercentageBar.cs" />
     <Compile Include="ScreenToggleIcon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

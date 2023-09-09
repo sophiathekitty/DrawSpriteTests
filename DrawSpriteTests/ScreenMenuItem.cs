@@ -22,6 +22,9 @@ namespace IngameScript
 {
     partial class Program
     {
+        //----------------------------------------------------------------------
+        // ScreenMenuItem
+        //----------------------------------------------------------------------
         public class ScreenMenuItem
         {
             ScreenSprite bullet;
@@ -269,5 +272,6 @@ namespace IngameScript
                 }
             }
         }
+        //----------------------------------------------------------------------
     }
 }
