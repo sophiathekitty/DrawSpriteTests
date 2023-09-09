@@ -6,11 +6,12 @@ I wanted to figure out how to do stuff with the Spites on the LCDs. This is the 
 
 it also uses a GridInfo class i made to store data i want to access globally and save. some of the display classes can be bound to a var saved in GridInfo. these variables can also be sent to other programs by their program name. and GridInfo can handle checking messages from other programs.
 
+[Creating scripts for space engineers](https://github.com/malware-dev/MDK-SE/wiki/Getting-Started-with-MDK)
 
-This Script's MDK Project Source: https://github.com/sophiathekitty/DrawSpriteTests
-MDK Docs for drawing sprites: https://github.com/malware-dev/MDK-SE/wiki/Text-Panels-and-Drawing-Sprites
+[MDK Docs for drawing sprites](https://github.com/malware-dev/MDK-SE/wiki/Text-Panels-and-Drawing-Sprites)
 
-Icon Attribution:
-https://www.flaticon.com/free-icons/construction-and-tools Construction-and-tools icons created by Smashicons - Flaticon
-https://www.flaticon.com/free-icons/area Area icons created by Smashicons - Flaticon
-https://www.flaticon.com/free-icons/hphp Hp icons created by Smashicons - Flaticon
+### Icon Attribution:
+
+- Construction-and-tools icons created by Smashicons - [Flaticon](https://www.flaticon.com/free-icons/construction-and-tools)
+- Area icons created by Smashicons - [Flaticon](https://www.flaticon.com/free-icons/area)
+- https://www.flaticon.com/free-icons/hp Hp icons created by Smashicons - [Flaticon](https://www.flaticon.com/free-icons/hp)
